@@ -7,4 +7,4 @@ Add shapes to the map,
 Use Ground Overlays,
 Use KML Layers and GeoRSS,
 GeoCoding API,
-Directions API
+and Directions API
