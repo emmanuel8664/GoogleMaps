@@ -61,7 +61,9 @@
   // drawDraggableRectangle(map);
   // drawCircle(map);
   // addGroundOverlay(map);
-     addKmlLayer(map);
+  // addKmlLayer(map);
+
+    addGeoJSONDataLayer(map);
 
 
 
@@ -213,6 +215,19 @@
 
     var offasDykeLayer = new google.maps.KmlLayer("http://hikeview.co.uk/tracks/hikeview-offas-dyke.kml");
     offasDykeLayer.setMap(map);
+   }
+
+   function addGeoJSONDataLayer(map){ 
+
+    map.data.loadGeoJson('https://gist.githubusercontent.com/emmanuel8664/e2c884e7257d01e3f9588f0b5bc3d638/raw/45a873dd1419a8b1d454ec53c4d50f8971033b8a/SecretCastlesofWales.json');
+
+    map.data.setStyle({
+
+      icon: 'https://image.ibb.co/fngkfq/castle.png',
+      strokeColor: 'green'
+
+    });
+
    } 
 
    //Event when the window is loaded
