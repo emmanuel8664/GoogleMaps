@@ -18,7 +18,7 @@
    function initialize() { 
    // var to store map options
    var mapOptions = {
-    center: new google.maps.LatLng(52.231164,-3.015747),
+    center: new google.maps.LatLng(53.178521,-3.438549),
     zoom: 16,
     disableDefaultUI: true,
     zoomControl:true,
@@ -59,7 +59,10 @@
   // drawPolyline(map); 
   // drawEditablePolygon(map);
   // drawDraggableRectangle(map);
-   drawCircle(map);
+  // drawCircle(map);
+     addGroundOverlay(map);
+
+
    }
 
    //Function to add eventListener to the buttons for change the type of map when somebody press a button
@@ -190,6 +193,17 @@
 
     });    
     circle.setRadius(58.222737);
+   }
+
+   //Function for add a ground overlay
+   function addGroundOverlay (map) {
+
+    var imageBounds = new google.maps.LatLngBounds(new google.maps.LatLng(53.178521,-3.438549),new google.maps.LatLng(53.194979,-3.390613));
+
+    var historicalOverlay = new google.maps.GroundOverlay("https://image.ibb.co/k8WwmV/denbigh.jpg",imageBounds);
+
+    historicalOverlay.setMap(map);
+
    } 
 
    //Event when the window is loaded
