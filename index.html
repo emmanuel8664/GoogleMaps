@@ -60,7 +60,10 @@
   // drawEditablePolygon(map);
   // drawDraggableRectangle(map);
   // drawCircle(map);
-     addGroundOverlay(map);
+  // addGroundOverlay(map);
+     addKmlLayer(map);
+
+
 
 
    }
@@ -204,6 +207,12 @@
 
     historicalOverlay.setMap(map);
 
+   }
+
+   function  addKmlLayer(map){
+
+    var offasDykeLayer = new google.maps.KmlLayer("http://hikeview.co.uk/tracks/hikeview-offas-dyke.kml");
+    offasDykeLayer.setMap(map);
    } 
 
    //Event when the window is loaded
