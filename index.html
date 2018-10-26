@@ -60,7 +60,7 @@
 
   // FUNCTIONS FOR ADD SHAPES TO THE MAP 
 
-  // drawMarkers(map);
+    drawMarkers(map);
   // drawPolyline(map); 
   // drawEditablePolygon(map);
   // drawDraggableRectangle(map);
@@ -96,6 +96,7 @@
 
    }
 
+   //Function for going to the initial position
    function addGotoInitialExtent(map,initialCenter,initialZoom){
 
      google.maps.event.addListener(map,'rightclick',function(){
@@ -108,7 +109,7 @@
    //Function for draw markers
    function drawMarkers(map){ 
 
-    var image = "http://nishati-us.com/wp-content/uploads/2014/09/red-location-icon-map-png-4.png";
+    var image = "https://image.ibb.co/hb7y3A/walesflag.png";
 
     var centerMarker = new google.maps.Marker({
         icon: image,
@@ -117,7 +118,31 @@
         title: "The Offa's Dyke Center, Knighton, Powys"
     });
 
-    
+    var contentString = '<div id="content">' +
+              '<div id="siteNotice">' +
+              '</div>' +
+              '<h1 id="firstHeading" class="firstHeading">The Offa\'s Dyke Center</h1>' +
+              '<div id="bodyContent">' +
+              '<p>The <b>Offa\'s Dyke Center</b> is located in the middle of the pretty town of Knighton, in Powys.</p>' +
+              '<p>The Centre, opened in 1999, forms the focus for activities based on the 8th Century earthwork built ' +
+              'by <i>Offa</i>, the King of Mercia. The dyke follows the Welsh English border from the hills above ' +
+              'Prestatyn to the Severn Estuary near Chepstow. With its free exhibition and car park, the Centre caters' + 
+              'for the needs of a wide range of visitors, from those taking toddlers to play in the surrounding park ' +
+              'and play area, to those exploring the border area by car, cycle or on foot, to education groups ' +
+              'studying the history of the area, and particularly that of Offas Dyke. There is something here ' +
+              'for everyone.</p>' +
+              '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShihjRl-rCloqTW4qDfaY8x8E-iVbwTukAi8HVh8SLnSj6LHnQ"/>' +
+              '<p>For more information, visit the center <a href="http://www.offasdyke.demon.co.uk/odc.htm">web page</a>' +
+              '</div>' +
+              '</div>';
+
+    var infoWindow = new google.maps.InfoWindow({
+        content: contentString
+    });    
+
+    google.maps.event.addListener(centerMarker, 'click', function(){
+        infoWindow.open(map,centerMarker);
+    });      
 
     var pubMarker = new google.maps.Marker({
         icon: image,
