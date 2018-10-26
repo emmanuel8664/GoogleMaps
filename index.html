@@ -47,11 +47,16 @@
 
    };
 
+   var initialCenter = mapOptions.center;
+   var initialZoom = mapOptions.zoom;
+
    //Pass the mapDiv and the MapOptions object into the class constructor
    var map = new google.maps.Map(document.getElementById("mapDiv"),mapOptions);
 
    //Add the buttons in the initialize 
    addButtons(map);
+
+   addGotoInitialExtent(map,initialCenter,initialZoom);
 
   // FUNCTIONS FOR ADD SHAPES TO THE MAP 
 
@@ -91,6 +96,15 @@
 
    }
 
+   function addGotoInitialExtent(map,initialCenter,initialZoom){
+
+     google.maps.event.addListener(map,'rightclick',function(){
+      map.setCenter(initialCenter);
+      map.setZoom(initialZoom);
+     }); 
+
+   }
+
    //Function for draw markers
    function drawMarkers(map){ 
 
@@ -102,6 +116,8 @@
         map:map,
         title: "The Offa's Dyke Center, Knighton, Powys"
     });
+
+    
 
     var pubMarker = new google.maps.Marker({
         icon: image,
