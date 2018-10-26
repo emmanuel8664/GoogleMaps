@@ -28,6 +28,7 @@
 
 var map;
 var geocoder = new google.maps.Geocoder();
+var elevationService;
 
    function initialize() { 
    // var to store map options
@@ -74,18 +75,18 @@ var geocoder = new google.maps.Geocoder();
 
   // FUNCTIONS FOR ADD SHAPES TO THE MAP 
 
-    drawMarkers(map);
-  // drawPolyline(map); 
-  // drawEditablePolygon(map);
-  // drawDraggableRectangle(map);
-  // drawCircle(map);
-  // addGroundOverlay(map);
-  // addKmlLayer(map);
+   drawMarkers(map);
+   drawPolyline(map); 
+   drawEditablePolygon(map);
+   drawDraggableRectangle(map);
+   drawCircle(map);
+   addGroundOverlay(map);
+   addKmlLayer(map);
+   addGeoJSONDataLayer(map);
+   addShowCoords(map);
+  // addElevationService();
 
-    addGeoJSONDataLayer(map);
-
-    addShowCoords(map);
-
+    
 
    }
 
@@ -359,6 +360,55 @@ function calcRoute (){
         }
   });
 
+
+}
+
+function addElevationService () {
+
+  //Create an elevation service
+  elevationService = new google.maps.ElevationService();
+
+  //Add a listener for the double click event and call getElevation on that location
+  google.maps.event.addListener(map, 'click', getElevation);
+
+
+}
+
+function getElevation(event){
+
+  var locations = [];
+
+  var infoWindow = new google.maps.InfoWindow();
+
+  // Retrieve the clicked location and add it to the array
+  var userClickLocation = event.LatLng;
+  locations.push(userClickLocation);
+
+  // Create a location elevation request object using array's single value
+  var positionalRequest = {
+    'locations': locations
+  }
+
+  //send the location request
+  elevationService.getElevationForLocations(positionalRequest, 
+    function(results, status){
+      if(status == google.maps.ElevationStatus.OK){
+        //Retrieve the first result
+        if(results[0]){
+          //Open an info window indicating the elevation at the clicked position
+          infoWindow.setContent("The elevation at this point is "+ Math.round(results[0].elevation)+"meters.");
+          infoWindow.setPosition(userClickLocation);
+          infoWindow.open(map);
+        }
+        else{
+          alert("No results found");
+        }
+      }
+      else {
+        alert("Elevation service failed due to: " + status);
+      }
+
+  })
 
 }
 
