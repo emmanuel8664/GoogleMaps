@@ -332,6 +332,36 @@ function geocodeAddress() {
     });
 }
 
+function calcRoute (){
+
+  var directionsService = new google.maps.DirectionsService();
+
+  var directionsDisplay;
+  directionsDisplay = new google.maps.DirectionsRenderer();
+
+  directionsDisplay.setMap(map);
+  directionsDisplay.setPanel(document.getElementById("directionsPanel"));
+
+  var start = document.getElementById("start").value;
+  var end = new google.maps.LatLng(52.345860,-3.051817);
+  var request = {
+      origin:start,
+      destination:end,
+      travelMode: google.maps.TravelMode.DRIVING
+  };
+  directionsService.route(request, 
+    function(result,status) {
+        if(status == google.maps.DirectionsStatus.OK){
+          directionsDisplay.setDirections(result);
+        }
+        else {
+          alert("Could not calculate directions. Try again, or buy a map!");
+        }
+  });
+
+
+}
+
    //Event when the window is loaded
    google.maps.event.addDomListener(window,"load",  initialize);
 </script>
@@ -350,6 +380,12 @@ function geocodeAddress() {
     <input type="button" value="Geocode" onclick="geocodeAddress()">
 </div>
 
+<div>
+  <input id="start" type="textbox" value="" style="width:300px;">
+  <input type="button" value="Get Route" onclick="calcRoute()">
+</div>
+
+<div id="directionsPanel" style="float:right;width:30%;height 100%"></div>
 
 <!--3 Create a div element to hold the map -->
 <div id="mapDiv"> </div>
