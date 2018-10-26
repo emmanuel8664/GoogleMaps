@@ -21,10 +21,13 @@
         </style>
  
 <!--1 Include de Maps API JavaScript -->
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqu6hQlG0wZrSQ8zL2zUB1HgrekYrggOw"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZGcBQn2PbPCgcElCr0kfwsJ4S7WIyH8I"></script>
 
 <!--2 Add a script tag for your Google Maps API code -->
 <script type="text/javascript">
+
+var map;
+var geocoder = new google.maps.Geocoder();
 
    function initialize() { 
    // var to store map options
@@ -62,7 +65,7 @@
    var initialZoom = mapOptions.zoom;
 
    //Pass the mapDiv and the MapOptions object into the class constructor
-   var map = new google.maps.Map(document.getElementById("mapDiv"),mapOptions);
+   map = new google.maps.Map(document.getElementById("mapDiv"),mapOptions);
 
    //Add the buttons in the initialize 
    addButtons(map);
@@ -89,6 +92,7 @@
    //Function to add eventListener to the buttons for change the type of map when somebody press a button
    function addButtons (map) {
 
+    /*/
    document.getElementById('btnTerrain').addEventListener('click',function(){
     map.setMapTypeId(google.maps.MapTypeId.TERRAIN);
    }); 
@@ -102,6 +106,23 @@
    }); 
 
       document.getElementById('btnHybrid').addEventListener('click',function(){
+    map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+   }); 
+  /*/
+
+   google.maps.event.addDomListener(btnTerrain,"click",function(){
+    map.setMapTypeId(google.maps.MapTypeId.TERRAIN);
+   }); 
+
+   google.maps.event.addDomListener(btnRoadMap,"click",function(){
+    map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+   }); 
+
+   google.maps.event.addDomListener(btnSatellite,"click",function(){
+    map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
+   }); 
+
+   google.maps.event.addDomListener(btnHybrid,"click",function(){
     map.setMapTypeId(google.maps.MapTypeId.HYBRID);
    }); 
 
@@ -294,6 +315,23 @@
 
    }
 
+function geocodeAddress() {
+    var address = document.getElementById("address").value;
+    geocoder.geocode({ 'address': address}, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            map.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+                map: map,
+                position: results[0].geometry.location
+            });
+            map.setZoom(17);
+            map.panTo(marker.position)
+        } else {
+            alert("Geocode failed with the following error: " + status);
+        }
+    });
+}
+
    //Event when the window is loaded
    google.maps.event.addDomListener(window,"load",  initialize);
 </script>
@@ -307,8 +345,15 @@
 <button id="btnSatellite">Satellite </button>
 <button id="btnHybrid">Hybrid </button>    
 
+<div>
+    <input id="address" type="textbox" value="Knighton, Powys" style="width:300px;">
+    <input type="button" value="Geocode" onclick="geocodeAddress()">
+</div>
+
+
 <!--3 Create a div element to hold the map -->
 <div id="mapDiv"> </div>
+
 
 <div id="coordsDiv"></div>
 
